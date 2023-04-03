@@ -1,8 +1,8 @@
 #include "monty.h"
 /**
- * main - main fucntion for monty
- * @ac: arguments count
- * @av: arguments inventory
+ * main - main function for monty
+ * @ac: arnuments count
+ * @av: atruments inventory
  * Return: nothing
  */
 int main(int ac, char *av[])
@@ -24,14 +24,15 @@ int main(int ac, char *av[])
 	fd = fopen(av[1], "r");
 	if (!fd)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", av[1]);
+		dprintf(STDERR_FILENO, "Error: Can't open file%s\n", av[1]);
 		free(buffer), free(token);
 		exit(EXIT_FAILURE);
 	}
-	while (read_val != EOF &&(strcmp(argument[0], "FAIL") !=0))
+	while (read_val != EOF && (strcmp(argument[0], "FAIL") != 0))
 	{
 		buffer = NULL;
 		read_val = getline(&buffer, &bytes, fd);
+
 		if (read_val == -1)
 		{
 			free(buffer);
@@ -53,4 +54,3 @@ int main(int ac, char *av[])
 	fclose(fd);
 	return (0);
 }
-
