@@ -1,5 +1,7 @@
 #include "monty.h"
 
+int numMonty;
+
 /**
  * main - takes input and sends to sub function
  * @argc: arg counter
@@ -17,7 +19,7 @@ int main(__attribute__((unused))int argc, char **argv)
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE)
+		exit(EXIT_FAILURE);
 	}
 	fd = fopen(argv[1], "r");
 	if (fd == NULL)
@@ -39,6 +41,7 @@ int main(__attribute__((unused))int argc, char **argv)
 	}
 	if (stack)
 		free(stack);
+	return (1);
 }
 
 /**

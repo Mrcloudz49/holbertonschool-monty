@@ -1,4 +1,6 @@
 #include "monty.h"
+
+int numMonty;
 /**
  * push_f - push a new element into the stack
  * @stack: stack
@@ -6,8 +8,8 @@
  */
 void push_f(stack_t **stack, unsigned int line_number)
 {
+	stack_t *newNode;
 	(void)line_number;
-	stack_t *newNode = NULL;
 
 	newNode = malloc(sizeof(stack_t));
 	if (newNode == NULL)
@@ -32,8 +34,8 @@ void push_f(stack_t **stack, unsigned int line_number)
  */
 void pall_f(stack_t **stack, unsigned int line_number)
 {
-	(void)line_number;
 	stack_t *toprint = *stack;
+	(void)line_number;
 
 	while (toprint != NULL)
 	{
@@ -42,7 +44,8 @@ void pall_f(stack_t **stack, unsigned int line_number)
 		{
 			toprint = toprint->next;
 		}
-		else break;
+		else
+		       	break;
 	}
 }
 
