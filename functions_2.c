@@ -1,85 +1,88 @@
 #include "monty.h"
-
 /**
- * pop - removes the top elelment of the stack
- * @stack: the stack
- * @line_number: instruction line number
- * Return: nothing
+ * pint_f - print the value at the top of the stack
+ * @stack: list
+ * @line_number: line count
  */
-void pop(stack_t **stack, unsigned int line_number)
+void pint_f(stack_t **stack, unsigned int line_number)
 {
-	stack_t *save;
-
-	if (!*stack)
+	if (*stack == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%d: can't pop an empty stack\n", line_number);
-		argument[0] = "FAIL";
-		return;
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
 	}
-	save = (*stack)->next;
-	free(*stack);
-	*stack = save;
+	printf("%d\n", (*stack)->n);
 }
 
 /**
- * nop - does nothing
- * @stack: the stack
- * @line_number: instruction line number
- * Return: nothing
+ * pop_f - removes the top of the stack
+ * @stack: list
+ * @line_number: line count
  */
-void nop(stack_t **stack, unsigned int line_number)
+void pop_f(stack_t **stack, unsigned int line_number)
 {
-	UNUSED(line_number);
-	UNUSED(stack);
-	argument[0] = "nothing";
+	stack_t *tmp;
+
+	if (*stack == NULL)
+	{
+		fprintf(stderr, "t%d: can't pop an empty stack\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	tmp = *stack;
+	*stack = (*stack)->next;
+	free(tmp->prev);
+	tmp->prev = NULL;
+	free(tmp);
 }
 
 /**
- * add - adds the top two elements of the stack
- * @stack: the stack
- * @line_number: instructions line number
- * Return: nothing
+ * add_f - adds the value of the 2 lasts things
+ * @stack: list
+ * @line_number: line count
  */
-void add(stack_t **stack, unsigned int line_number)
+void add_f(stack_t **stack, unsigned int line_number)
 {
-	stack_t *temp = NULL;
+	int m;
 
-	if (*stack && (*stack)->next)
-		temp = (*stack)->next;
-	if (!temp)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		dprintf(STDERR_FILENO, "L%d: can't add, stack to short\n", line_number);
-		argument[0] = "FAIL";
-		return;
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
 	}
-	temp->n += (*stack)->n;
-	free(*stack);
-	*stack = temp;
+	m = (*stack)->n;
+	(*stack) = (*stack)->next;
+	free((*stack)->prev);
+	(*stack)->prev = NULL;
+	(*stack)->n = (*stack)->n + m;
 }
 
 /**
- * swap - swaps the top two elements of the stack
- * @stack: the stack
- * @line_number: instruction line number
- * Return: nothing
+ * swap_f - swap the last stack
+ * @stack: list
+ * @line_number: line count
  */
-
-void swap(stack_t **stack, unsigned int line_number)
+void swap_f(stack_t **stack, unsigned int line_number)
 {
-	int temp;
+	int m;
 
-	if (*stack && (*stack)->next)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		temp = (*stack)->n;
-		(*stack)->n = (*stack)->next->n;
-		(*stack)->next->n = temp;
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		dprintf(STDERR_FILENO, "L%d: can't swap, stack too short\n", line_number);
-		argument[0] = "FAIL";
-		return;
-	}
+
+	m = (*stack)->n;
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = m;
 }
 
-
+/**
+ * nop_f - does nothing
+ * @stack: list
+ * @line_number: line count
+ */
+void nop_f(stack_t **stack, unsigned int line_number)
+{
+	(void) *stack;
+	(void) line_number;
+}
